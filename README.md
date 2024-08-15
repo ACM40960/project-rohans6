@@ -155,8 +155,30 @@ The Driver Drowsiness Detection System employs a Convolutional Neural Network (C
 **Non-trainable params:** 0 (0.00 Byte)
 
 ### Performance Summary
-![img](training.png)
-- **Accuracy**: The model achieves a high accuracy of around 95% on both the training and validation datasets after 50 epochs.
-- **Loss**: The loss decreases rapidly initially and stabilizes at a low value, with the final validation loss close to 0.2.
-- **Overfitting**: The close alignment between training and validation accuracy and loss curves indicates that the model is not overfitting.
-- **Generalization**: The model demonstrates strong generalization to unseen data, making it effective for real-world applications.
+![img](img/training.png)
+The training and validation accuracy both reach approximately 96% after 50 epochs, demonstrating the model's effectiveness. The accuracy curves for both the training and validation sets follow nearly identical trajectories, which suggests that the model is generalizing well and not overfitting to the training data. Similarly, the categorical cross-entropy loss decreases sharply from over 1.2 at the start to below 0.1 by the 50th epoch, indicating that the model is learning effectively. The consistency between the training and validation loss curves further confirms that the model is well-regularized and capable of performing reliably on new, unseen data. The graph also suggests that there is potential to further reduce the loss by increasing the number of epochs, which could lead to even better performance. Overall, the model demonstrates high quality, as it strikes a balance between accuracy and generalization, without succumbing to overfitting.
+
+### 5. Model Evaluation 
+The performance of the Convolutional Neural Network (CNN) for the Driver Drowsiness Detection System was evaluated using key classification metrics: F1 Score, Precision, and Recall. These metrics provide a detailed understanding of how well the model generalizes to unseen data.
+#### Key Metrics
+
+- **F1 Score**: 0.9635
+- **Precision**: 0.9636
+- **Recall**: 0.9637
+
+These results indicate that the model is highly accurate in classifying drowsy and non-drowsy states. The high F1 Score reflects a good balance between precision and recall, which is particularly important in this context where both false positives (wrongly identifying a driver as drowsy) and false negatives (failing to identify a drowsy driver) can have significant consequences.
+
+![im](img/pr.png)
+#### High Precision and Recall
+The high precision and recall scores, as reflected in the curve, suggest that the model is well-calibrated, making it very effective at classifying the data correctly without being prone to false alarms.
+
+#### Robust Model
+The precision-recall curve remains high and stable across a wide range of recall values, which implies that the model is robust and performs well even under different conditions of decision thresholding.
+
+#### Potential Trade-offs
+The slight dip in precision at very high recall values highlights the trade-off between capturing all positive instances and maintaining a low number of false positives. However, this trade-off is minimal in this model, indicating its strong performance.
+
+![a](img/ROC.png)
+The curve, which plots the True Positive Rate (TPR) against the False Positive Rate (FPR) at various threshold settings, rises sharply towards the top-left corner, indicating that the model quickly achieves a high TPR with a minimal FPR. This is further validated by the Area Under the Curve (AUC) score of 0.9953, which is remarkably close to 1. An AUC of this magnitude suggests that the model has an almost perfect ability to distinguish between positive and negative classes, reflecting a highly effective classification process.
+
+In addition to the ROC curve, the evaluation metrics reinforce the model's strong performance. The F1 score of 0.9635, which balances precision and recall, indicates that the model is not only accurate in predicting positive instances but also consistently identifies true positives with minimal false positives. Precision and recall scores of 0.9636 and 0.9637, respectively, further highlight the model's reliability, with 96.36% of the predicted positive instances being correct and 96.37% of the actual positive instances being correctly identified. These metrics suggest that the model is highly dependable and well-calibrated, making it suitable for real-world applications where both precision and recall are critical.
