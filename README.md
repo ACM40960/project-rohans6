@@ -128,3 +128,35 @@ The `DataTransformationPipeline` class provides methods to transform the trainin
     - `y_test`: Array of testing labels.
     - `shuffle`: Whether to shuffle the data (default is `False`).
   - **Returns**: A data generator for the testing data.
+
+### 4. Model Building and Training
+
+The Driver Drowsiness Detection System employs a Convolutional Neural Network (CNN) to classify images into various categories, such as "yawn," "no yawn," "open eyes," and "closed eyes." The CNN is designed to process and analyze facial images, extracting features crucial for identifying drowsiness.
+
+**Model: Sequential**
+
+| Layer (type)                | Output Shape              | Param #    |
+|-----------------------------|----------------------------|------------|
+| `conv2d` (Conv2D)           | (None, 143, 143, 256)     | 7,168      |
+| `max_pooling2d` (MaxPooling2D) | (None, 71, 71, 256)       | 0          |
+| `conv2d_1` (Conv2D)         | (None, 69, 69, 128)       | 295,040    |
+| `max_pooling2d_1` (MaxPooling2D) | (None, 34, 34, 128)       | 0          |
+| `conv2d_2` (Conv2D)         | (None, 32, 32, 64)        | 73,792     |
+| `max_pooling2d_2` (MaxPooling2D) | (None, 16, 16, 64)        | 0          |
+| `conv2d_3` (Conv2D)         | (None, 14, 14, 32)        | 18,464     |
+| `max_pooling2d_3` (MaxPooling2D) | (None, 7, 7, 32)          | 0          |
+| `flatten` (Flatten)         | (None, 1568)              | 0          |
+| `dropout` (Dropout)         | (None, 1568)              | 0          |
+| `dense` (Dense)             | (None, 64)                | 100,416    |
+| `dense_1` (Dense)           | (None, 4)                 | 260        |
+
+**Total params:** 495,140 (1.89 MB)  
+**Trainable params:** 495,140 (1.89 MB)  
+**Non-trainable params:** 0 (0.00 Byte)
+
+### Performance Summary
+![img](training.png)
+- **Accuracy**: The model achieves a high accuracy of around 95% on both the training and validation datasets after 50 epochs.
+- **Loss**: The loss decreases rapidly initially and stabilizes at a low value, with the final validation loss close to 0.2.
+- **Overfitting**: The close alignment between training and validation accuracy and loss curves indicates that the model is not overfitting.
+- **Generalization**: The model demonstrates strong generalization to unseen data, making it effective for real-world applications.
