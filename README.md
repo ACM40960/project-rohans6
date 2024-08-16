@@ -20,6 +20,103 @@ The authors of "IOT Based Driver Sleepiness Detection System" focused on the hea
 
 ## Methodology
 
+### Data Collection
+For this project, our data collection process was designed to create a robust and diverse dataset that would enable our model to effectively learn and generalize across different scenarios. Below is an outline of our approach:
+
+#### 1. Sourcing External Data
+We initially sourced a dataset from Kaggle that provided a foundation for our model training. This dataset contained various images categorized into four classes: **Open**, **Closed**, **Yawn**, and **No Yawn**. However, to ensure that our model could handle real-world variability and nuances, we recognized the need to supplement this dataset with additional data collected by ourselves.
+
+#### 2. Self-Collected Data
+To enhance the existing dataset, we undertook the task of collecting additional data. The key aspects of our data collection process were:
+
+- **Participants**: We used five different individuals to record the data. This ensured diversity in facial features, expressions, and other individual-specific traits, which would help the model generalize better to unseen data.
+  
+- **Classes and Samples**: For each of the four classes (Open, Closed, Yawn, No Yawn), we recorded 200 samples per participant. This provided us with a total of 4,000 samples (200 samples × 4 classes × 5 individuals).
+
+#### 3. Data Recording Process
+We opted for a video-based approach for data collection, as it allowed us to capture dynamic variations in expressions and movements, which are crucial for detecting states like drowsiness.
+
+- **Video Recording**: Each participant was recorded in various scenarios, performing actions corresponding to the four classes.
+  
+- **Frame Extraction**: After recording the videos, we extracted frames from these videos. Each frame represented a sample that was then labeled according to the class it belonged to (e.g., Open, Closed, Yawn, No Yawn).
+
+#### 4. Ensuring Variability and Quality
+To ensure our model learned from a wide range of conditions, we intentionally varied several factors during the data collection:
+
+- **Poses**: We instructed participants to perform both high-quality and imperfect poses. This was done to help the model learn to recognize the relevant features even when the input is not ideal.
+
+- **Lighting Conditions**: We recorded data under different lighting conditions—bright light, dim light, and natural light—to ensure the model could handle variations in illumination.
+
+- **Background Diversity**: To add further complexity, we recorded videos against different backgrounds. This would help the model become more resilient to background noise and variations in real-world applications.
+
+- **Zoom and Perspective**: We also incorporated random zooms in and zooms out during video recording. This allowed us to simulate different camera distances and angles, which are likely to occur in real-world scenarios.
+
+#### Thought Process
+The primary goal behind our data collection process was to create a comprehensive and diverse dataset that would challenge the model during training and make it capable of robustly identifying the classes in varied real-world conditions. By ensuring diversity in participants, environmental factors, and recording techniques, we aimed to build a model that is both accurate and generalizable. 
+
+This meticulous data collection strategy lays the foundation for a model that can perform reliably in detecting states like drowsiness across different individuals and scenarios, ultimately contributing to a safer and more effective application.
+### Data Processing and Preparation
+
+Once our dataset was collected, we faced the challenge of efficiently processing the data, especially given the large number of images. To address this, we adopted a strategy centered around efficient data handling and augmentation.
+
+#### 1. Efficient Data Loading with Generators
+Given the substantial size of our dataset, loading the entire dataset into memory at once was not feasible. Instead, we utilized the concept of **Generators** from TensorFlow. Generators allowed us to load data in small batches, rather than the entire dataset, which is particularly beneficial for large-scale data. This approach ensured that our model could be trained without overwhelming the system’s memory, enabling efficient and scalable processing.
+
+- **Batch Processing**: By using TensorFlow's `ImageDataGenerator`, we could load and process images in batches. This not only conserved memory but also made our training process more manageable and faster.
+
+#### 2. Image Resizing and Normalization
+To ensure consistency across our dataset and compatibility with the model architecture, all images were resized to a standard dimension of **224x224 pixels**. This resizing step is crucial as it ensures that all input data is uniform, which is necessary for the convolutional layers of the neural network to function correctly.
+
+- **Normalization**: After resizing, the images were normalized. Normalization involved scaling the pixel values to a range of [0, 1], which helps in speeding up the convergence of the neural network during training. This step is essential for maintaining numerical stability and improving model performance.
+
+#### 3. Data Augmentation Techniques
+To enhance the robustness of our model, we experimented with various **data augmentation** techniques. Data augmentation is a powerful method to artificially increase the diversity of the training data by applying random transformations. This helps the model generalize better to new, unseen data.
+
+- **Augmentation Techniques**: We applied several augmentation techniques such as:
+  - **Horizontal Flipping**: Randomly flipping images horizontally to account for variations in orientation.
+  - **Zooming**: Randomly zooming in and out on images to simulate different camera distances.
+  - **Rotation**: Rotating images at various angles to ensure the model could handle different viewpoints.
+  - **Brightness Adjustment**: Randomly adjusting the brightness to simulate different lighting conditions.
+  
+By augmenting the data, we aimed to expose the model to a wider variety of scenarios, thereby improving its ability to generalize to real-world conditions.
+
+#### Thought Process
+The main goal behind our data processing strategy was to ensure that our model could handle the complexity and diversity of the real-world data it would encounter. By using TensorFlow Generators, we managed memory efficiently while ensuring the model was trained on diverse and well-prepared data. The resizing, normalization, and augmentation steps were crucial in making the dataset more suitable for training a deep learning model, ultimately leading to better performance and generalization.
+
+### Model Architecture Exploration
+
+With our dataset prepared and processed, we turned our attention to selecting and experimenting with different model architectures to achieve optimal performance. Our approach involved starting with a basic Convolutional Neural Network (CNN) and progressively exploring more complex architectures, including Vision Transformers (ViTs).
+
+#### 1. Initial CNN Architecture
+We began with a **basic CNN architecture**, which served as our baseline model. This simple architecture allowed us to establish a foundational understanding of how well a straightforward model could perform on our dataset. The basic CNN typically consisted of:
+
+- **Convolutional Layers**: To automatically extract features from the input images.
+- **Max-Pooling Layers**: To reduce the dimensionality and retain important features.
+- **Fully Connected Layers**: To perform the final classification based on the extracted features.
+
+#### 2. Progressive Complexity
+After establishing a baseline with the basic CNN, we explored more sophisticated and complex architectures to enhance model performance. This step involved experimenting with various advanced models to improve accuracy, generalization, and robustness. The models we considered included:
+
+- **Deeper CNN Architectures**: Models with additional convolutional and pooling layers to capture more intricate patterns and features.
+- **Residual Networks (ResNets)**: These architectures use skip connections to improve training efficiency and enable the model to learn residuals.
+- **Transfer Learning Models**: Leveraging pre-trained models such as VGG, ResNet, or Inception, which are fine-tuned on our dataset to take advantage of features learned from large datasets.
+
+#### 3. Exploring Vision Transformers (ViTs)
+As part of our exploration of advanced architectures, we also considered **Vision Transformers (ViTs)**. Vision Transformers represent a shift from traditional convolution-based methods to leveraging self-attention mechanisms. Key aspects of using ViTs include:
+
+- **Patch Embedding**: Images are divided into fixed-size patches, which are then linearly embedded and fed into the transformer.
+- **Self-Attention Mechanism**: The transformer architecture employs self-attention to capture global dependencies and relationships between different parts of the image.
+- **Scalability**: ViTs are known for their ability to scale with larger datasets and models, potentially leading to better performance as more data and computational resources are available.
+
+#### Thought Process
+Our iterative approach to model selection was driven by the goal of balancing model complexity with performance. Starting with a basic CNN allowed us to set a performance benchmark, while exploring more complex architectures helped us push the boundaries of what could be achieved. Introducing Vision Transformers into our experimentation provided a modern perspective on handling image data, especially for tasks where capturing global context is crucial.
+
+By gradually increasing the complexity of our models and incorporating ViTs, we aimed to achieve the best possible results and insights, leveraging both foundational techniques and cutting-edge methodologies in deep learning.
+
+## Data Exploration
+
+## Implementation Details
+
 ### 1. Data Ingestion
 
 The data ingestion process is a crucial first step in developing the Driver Drowsiness Detection System. This step involves several key operations that prepare the raw data for model training and evaluation. The primary focus is on detecting and extracting relevant features from the input images, specifically focusing on the driver's facial region.
