@@ -114,7 +114,17 @@ Our iterative approach to model selection was driven by the goal of balancing mo
 By gradually increasing the complexity of our models and incorporating ViTs, we aimed to achieve the best possible results and insights, leveraging both foundational techniques and cutting-edge methodologies in deep learning.
 
 ## Data Exploration
+### Histogram of Image Dimensions
+![img](img/hist.png)
+The histogram of image dimensions reveals a significant concentration of images with heights around 400 pixels and widths around 600 pixels, indicating that many images are standardized to these sizes. Smaller images, particularly those in the 100-300 pixel range, are also present, suggesting variability in the dataset. Additionally, there are few images with dimensions larger than 600 pixels in height and 1000 pixels in width, which might be outliers. This consistent dimension range simplifies preprocessing and ensures uniformity in training data, though outliers may need special handling to avoid affecting model performance.
 
+### Color Distribution Plots
+![img](img/color.png)
+The color distribution plots show distinct characteristics for each class. The "Closed" class has peaks in lower pixel values, primarily in the blue and green channels, indicating darker images. In contrast, the "No Yawn" class exhibits a more uniform distribution with a spike at high pixel values, reflecting bright areas. The "Open" class displays varied color distribution with mid-range peaks, suggesting diverse lighting conditions. The "Yawn" class has a distribution similar to "No Yawn," with prominent high pixel values and balanced color channels, indicating bright regions like teeth and mixed colors.
+
+### Principal Component Analysis (PCA)
+![ia](img/pca.png)
+PCA analysis demonstrates clear separation between the "Closed" and "Open" classes, indicating that the features are effective in distinguishing these states. The "Closed" and "Open" classes cluster distinctly along Principal Component 1, which is crucial for their differentiation. However, there is notable overlap between the "No Yawn" and "Yawn" classes, suggesting shared features that make them harder to distinguish. The variability within clusters, such as in the "Open" class, points to differences in image conditions, underscoring the need for further refinement to improve class separation and model accuracy.
 ## Implementation Details
 
 ### 1. Data Ingestion
