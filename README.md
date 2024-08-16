@@ -183,3 +183,37 @@ The slight dip in precision at very high recall values highlights the trade-off 
 The curve, which plots the True Positive Rate (TPR) against the False Positive Rate (FPR) at various threshold settings, rises sharply towards the top-left corner, indicating that the model quickly achieves a high TPR with a minimal FPR. This is further validated by the Area Under the Curve (AUC) score of 0.9953, which is remarkably close to 1. An AUC of this magnitude suggests that the model has an almost perfect ability to distinguish between positive and negative classes, reflecting a highly effective classification process.
 
 In addition to the ROC curve, the evaluation metrics reinforce the model's strong performance. The F1 score of 0.9635, which balances precision and recall, indicates that the model is not only accurate in predicting positive instances but also consistently identifies true positives with minimal false positives. Precision and recall scores of 0.9636 and 0.9637, respectively, further highlight the model's reliability, with 96.36% of the predicted positive instances being correct and 96.37% of the actual positive instances being correctly identified. These metrics suggest that the model is highly dependable and well-calibrated, making it suitable for real-world applications where both precision and recall are critical.
+
+### 6. Real-Time Drowsiness Detection
+
+The real-time drowsiness detection system utilizes a Convolutional Neural Network (CNN) model to monitor a driver's eyes and detect signs of drowsiness. The system works by continuously analyzing video frames captured from a webcam, identifying the driver’s face and eyes, and determining whether the eyes are open or closed. If the eyes remain closed for a certain period, the system triggers an alert.
+
+#### Steps Involved in Drowsiness Detection:
+
+1. **Loading the Pre-trained Model:**
+   - The system uses a pre-trained CNN model (`drowiness_new7.h5`) designed to classify eye states as either "Open" or "Closed."
+
+2. **Initializing the Video Stream:**
+   - A video stream is captured using the device’s webcam (`cv2.VideoCapture(0)`), and each frame is processed in real-time.
+
+3. **Face and Eye Detection:**
+   - The system uses Haar cascades (`haarcascade_frontalface_default.xml`, `haarcascade_lefteye_2splits.xml`, and `haarcascade_righteye_2splits.xml`) to detect the driver's face and eyes within each frame.
+   - The left and right eyes are detected individually, and a bounding box is drawn around them.
+
+4. **Eye State Prediction:**
+   - Each detected eye region is preprocessed, resized to (145x145), and normalized.
+   - The preprocessed eye image is then passed to the CNN model, which predicts whether the eye is "Open" or "Closed."
+
+5. **Drowsiness Detection Logic:**
+   - If both eyes are detected as "Closed" for 5 consecutive frames, the system interprets this as a sign of drowsiness.
+   - The frame count (`count`) is incremented each time the eyes are closed. If the count reaches or exceeds 5, a drowsiness alert is triggered.
+
+6. **Triggering the Alarm:**
+   - When drowsiness is detected, an alarm sound is played using the `playsound` library to alert the driver.
+   - The alarm sound (`alarm.mp3`) is played in a separate thread to ensure it doesn't interfere with the real-time processing.
+
+7. **Resetting the Alarm:**
+   - If the eyes are detected as "Open" before reaching the threshold, the count is reset, and the alarm is deactivated.
+
+8. **Exiting the Application:**
+   - The application continues to monitor the driver's eyes until the user presses the 'q' key, at which point the video stream is released, and all OpenCV windows are closed.
