@@ -4,6 +4,51 @@
 
 Drowsiness in a driver is a condition that inhibits decision-making. Sleepy drivers have been involved in several accidents. In order to alert drivers before an accident, this project suggests developing a driver drowsiness detection system that uses a behavioral approach. This system has the potential to save lives and lessen traffic accidents. This research employs a trained convolutional neural network (CNN) to determine if the driver’s eyes are open or closed. Before training, the suggested model performs computer vision operations on the dataset’s images, such as edge detection, grayscale conversion, and dilation. The next step is to track face landmarks from video frames in real-time using the Google MediaPipe Face Mesh model. The proposed trained model is fed the retrieved, processed, and predicted eye area. The algorithm recognizes tiredness and alerts the driver to take precautions.
 
+## Prerequisites
+
+Before running this project, make sure you have the following installed on your system:
+
+- **Git**: For cloning the repository. You can download and install it from [here](https://git-scm.com/downloads).
+- **Docker**: To build and run the Docker container. You can download and install it from [here](https://www.docker.com/products/docker-desktop).
+
+Ensure Docker is running on your system before proceeding with the steps below.
+
+## How to Run This Project
+
+Follow these steps to clone the repository, build the Docker image, and run the container:
+
+### 1. Clone the Repository, Build the Docker Image, and Run the Container
+
+Run the following commands sequentially:
+
+```bash
+# Clone the repository
+git clone https://github.com/ACM40960/project-rohans6.git
+
+# Navigate to the project directory
+cd project-rohans6
+
+# Build the Docker image
+docker build -t drowsiness-detection .
+
+# Run the Docker container in detached mode
+docker run -d --name drowsiness-detection-container drowsiness-detection
+
+# Verify the container is running
+docker ps
+
+# View the logs (optional)
+docker logs drowsiness-detection-container
+
+# The following steps are if you need to stop and remove the container.
+# Stop the container
+docker stop drowsiness-detection-container
+
+# Remove the container
+docker rm drowsiness-detection-container
+
+```
+
 ## Introduction
 
 The National Transportation Safety Administration defines drowsy driving as a condition that accounts for approximately 2.5% of all fatalities in car accidents. In 2015 alone, there were over 72,000 crashes caused by drowsy driving. Surprisingly, car crashes caused by impaired driving outnumber those caused by drunk drivers.
